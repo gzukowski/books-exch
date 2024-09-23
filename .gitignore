@@ -12,14 +12,23 @@ venv.bak/
 *.egg-info/
 .dist-info/
 
+# Django specific files
+*.log
+*.pot
+*.pyc
+*.sqlite3
+
+# Django migrations
+*/migrations/*.py
+*/migrations/*.pyc
+!*/migrations/__init__.py
+
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
 
-# Python egg and build files
-*.egg
-*.egg-info/
-build/
-dist/
+# Static files
+staticfiles/
+media/
 
 # VS Code settings
 .vscode/
@@ -34,9 +43,11 @@ dist/
 .coverage
 htmlcov/
 
-# Migrations
-migrations/
+# MyPy
+.mypy_cache/
 
-# Other
-*.DS_Store
+# IDEs
+.idea/
 *.swp
+*.swo
+*.DS_Store
