@@ -1,20 +1,13 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
+from .models import Book
 
 def home(request):
-    return render(request, 'home.html', {})
-
-def register_user(request):
-    return render(request, 'register.html', {})
-
-def login_user(request):
-    return render(request, 'login.html', {})
-
-def logout_user(request):
-    return render(request, 'logout.html', {})
-
+    books = Book.objects.all()
+    return render(request, 'home.html', {'books' : books})
 
 def login_user(request):
     if request.method == "POST":
@@ -64,3 +57,12 @@ def register_user(request):
         form = UserCreationForm()
 
     return render(request, 'register.html', {'form': form})
+
+def browser(request):
+    return render(request, 'browser.html', {})
+
+def search_books(request):
+    query = request.GET.get('q', '')
+    books = Book.objects.filter(title__icontains=query)
+    results = [{'id': book.id, 'title': book.title, 'image': book.image.url} for book in books]
+    return JsonResponse({'books': results})
