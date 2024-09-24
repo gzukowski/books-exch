@@ -13,7 +13,22 @@ def browser(request):
 def search_books(request):
     query = request.GET.get('q', '')
     books = Book.objects.filter(title__icontains=query)
-    results = [{'id': book.id, 'title': book.title, 'image': book.image.url} for book in books]
+    
+    results = []
+    for book in books:
+        if book.image:
+            image = book.image_file.url
+        elif book.external_image:
+            image = book.external_image
+        else:
+            image = '/static/default_book_image.jpg'
+        
+        results.append({
+            'id': book.id,
+            'title': book.title,
+            'image': image
+        })
+    
     return JsonResponse({'books': results})
 
 def book_page(request, book_id):
