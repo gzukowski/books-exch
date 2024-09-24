@@ -2,3 +2,6 @@ django
 Pillow
 psycopg2
 python-dotenv
+requests
+redis
+celery

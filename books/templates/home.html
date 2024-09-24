@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <!-- Header-->
 <header class="bg-dark py-5" role="banner">
@@ -24,7 +24,13 @@
                 <div class="col mb-5">
                     <div class="card h-100">
                         <!-- Product image-->
-                        <img class="card-img-top" src="{{ book.image.url }}" alt="{{ book.title }} image" />
+                        {% if book.image %}
+                            <img class="card-img-top" src="{{ book.image.url }}" alt="{{ book.title }} image" />
+                        {% elif book.external_image %}
+                            <img class="card-img-top" src="{{ book.external_image }}" alt="{{ book.title }} image" />
+                        {% else %}
+                            <img class="card-img-top" src="{% static 'default_book_image.jpg' %}" alt="Default book image">
+                        {% endif %}
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">

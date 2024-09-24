@@ -1,0 +1,7 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+{% block content %}
+<a href="{% url 'admin:upload' %}" class="btn btn-primary">Import from google API</a>
+
+{{ block.super }}
+{% endblock %}

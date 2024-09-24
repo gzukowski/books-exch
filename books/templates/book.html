@@ -19,6 +19,8 @@
             <div class="col-md-6">
                 {% if book.image %}
                     <img class="img-fluid" src="{{ book.image.url }}" alt="{{ book.title }} image">
+                {% elif book.external_image %}
+                    <img class="img-fluid" src="{{ book.external_image }}" alt="Default book image">
                 {% else %}
                     <img class="img-fluid" src="{% static 'default_book_image.jpg' %}" alt="Default book image">
                 {% endif %}

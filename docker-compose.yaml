@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
@@ -33,6 +33,26 @@ services:
         condition: service_healthy
     networks:
       - books_network
-    
+  
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery --app=book_exchange worker -l info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    networks:
+      - books_network
+
+  redis:
+    image: redis:latest
+    networks:
+      - books_network
+
 networks:
   books_network:
