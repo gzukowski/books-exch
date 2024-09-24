@@ -14,35 +14,13 @@
 <!-- Search Bar -->
 <div class="container my-4">
     <input type="text" id="search-bar" class="form-control" placeholder="Search for books...">
-    <div id="search-results" class="mt-2"></div>
 </div>
 
 <!-- Section-->
 <main class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="book-list">
-            {% for book in books %}
-                <div class="col mb-5 book-item">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="{{ book.image.url }}" alt="{{ book.title }} image" />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">{{ book.title }}</h5>
-                                <!-- Product price-->
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="">View {{ book.title }}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+            <!-- placeholder for ajax results -->
         </div>
     </div>
 </main>
@@ -55,17 +33,31 @@
             fetch(`/search/?q=${query}`)
                 .then(response => response.json())
                 .then(data => {
-                    const resultsContainer = document.getElementById('search-results');
+                    const resultsContainer = document.getElementById('book-list');
                     resultsContainer.innerHTML = '';
 
                     data.books.forEach(book => {
                         const bookDiv = document.createElement('div');
-                        bookDiv.classList.add('card', 'my-2');
+                        console.log(book.image.url);
+                        bookDiv.classList.add('col', 'mb-5');
                         bookDiv.innerHTML = `
-                            <img class="card-img-top" src="${book.image}" alt="${book.title} image" />
-                            <div class="card-body">
-                                <h5 class="card-title">${book.title}</h5>
-                                <a href="/books/${book.id}/" class="btn btn-outline-dark">View ${book.title}</a>
+                            <div class="card h-100">
+                                <!-- Product image-->
+                                <img class="card-img-top" src="${book.image}" alt="${ book.title } image" />
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name-->
+                                        <h5 class="fw-bolder">${ book.title }</h5>
+                                        <!-- Product price-->
+                                    </div>
+                                </div>
+                                <!-- Product actions-->
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-dark mt-auto" href="/book/${book.id}">View details</a>
+                                    </div>
+                                </div>
                             </div>
                         `;
                         resultsContainer.appendChild(bookDiv);

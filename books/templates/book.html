@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Header -->
+<header class="bg-dark py-5" role="banner">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">{{ book.title }}</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Detailed information about the book</p>
+        </div>
+    </div>
+</header>
+
+<!-- Section: Single Product Details -->
+<main class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5">
+            <!-- Product Image -->
+            <div class="col-md-6">
+                {% if book.image %}
+                    <img class="img-fluid" src="{{ book.image.url }}" alt="{{ book.title }} image">
+                {% else %}
+                    <img class="img-fluid" src="{% static 'default_book_image.jpg' %}" alt="Default book image">
+                {% endif %}
+            </div>
+            
+            <!-- Product Details -->
+            <div class="col-md-6">
+                <div class="small mb-1 text-muted">Condition: {{ book.condition }}</div>
+                <h1 class="display-5 fw-bolder">{{ book.title }}</h1>
+                <p class="lead">By {{ book.author }}</p>
+                <p class="lead">{{ book.description }}</p>
+
+                <p class="text-muted small">Owned by: {{ book.owner.username }}</p>
+                <p class="text-muted small">Listed on: {{ book.created_at|date:"F d, Y" }}</p>
+
+                <div class="d-flex">
+                    <!-- Add to cart button -->
+                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                        <i class="bi-cart-fill me-1"></i>
+                        Add to cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

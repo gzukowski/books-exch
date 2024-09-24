@@ -66,3 +66,19 @@ def search_books(request):
     books = Book.objects.filter(title__icontains=query)
     results = [{'id': book.id, 'title': book.title, 'image': book.image.url} for book in books]
     return JsonResponse({'books': results})
+
+def book_page(request, book_id):
+    book = Book.objects.get(id=book_id)
+    
+    if book is not None: 
+        return render(
+                    request,
+                    'book.html',
+                    {'book' : book}
+                )
+        
+    return render(
+                    request,
+                    'home.html',
+                    {}
+                )
