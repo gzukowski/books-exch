@@ -1,9 +1,10 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from .models import Book
+from .forms import BookForm
 
 def home(request):
     books = Book.objects.all()
@@ -68,17 +69,48 @@ def search_books(request):
     return JsonResponse({'books': results})
 
 def book_page(request, book_id):
-    book = Book.objects.get(id=book_id)
+    book = get_object_or_404(Book, id=book_id)
     
-    if book is not None: 
-        return render(
-                    request,
-                    'book.html',
-                    {'book' : book}
-                )
-        
     return render(
-                    request,
-                    'home.html',
-                    {}
-                )
+        request,
+        'book.html',
+        {'book': book}
+    )
+    
+def profile(request):
+    if request.user.is_authenticated:
+        books = Book.objects.filter(owner=request.user)
+        return render(request, 'profile.html', {'books': books})
+    else:
+        return redirect('home')
+
+def remove_book(request, book_id):
+    if request.user.is_authenticated:
+        book = get_object_or_404(Book, id=book_id)
+        
+        if book.owner == request.user:
+            book.delete()
+            return redirect('profile')
+        
+        return redirect('home') 
+    else:
+        return redirect('home')
+    
+def add_book(request):
+    form = BookForm()
+    print(request.user.is_authenticated)
+    if not request.user.is_authenticated:
+        return redirect('login')
+        
+    if request.method == 'POST':
+        form = BookForm(request.POST, request.FILES)
+        if form.is_valid():
+            book = form.save(commit=False)
+            book.owner = request.user
+            book.save()
+            return redirect('profile')
+        
+    return render(request, 'add_book.html', {'form': form})
+    
+    
+    

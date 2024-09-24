@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5" role="banner">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Your books</h1>
+            <p class="lead fw-normal text-white-50 mb-0">
+                {% if messages %}
+                    {% for message in  messages %}
+                        {{ message }}
+                    {% endfor %}
+                {% endif %}
+            </p>
+            <a class="btn btn-outline-light mt-3" href="{% url 'add_book' %}">Add New Book</a>
+        </div>
+    </div>
+</header>
+<!-- Section-->
+<main class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            {% for book in books %}
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="{{ book.image.url }}" alt="{{ book.title }} image" />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">{{ book.title }}</h5>
+                                <!-- Product price-->
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <a class="btn btn-outline-dark mt-auto" href="{% url 'book_page' book.id %}">Details</a>
+                                <a class="btn btn-outline-dark mt-auto" href="{% url 'remove_book' book.id %}">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}
