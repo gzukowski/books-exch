@@ -14,7 +14,6 @@ def login_user(request):
             messages.success(request, "You have been logged in")
             return redirect('home')
         else:
-            messages.error(request, "There was an error")
             return redirect('login')
     else: 
         return render(request, 'login.html', {})
@@ -37,7 +36,6 @@ def register_user(request):
             messages.success(request, "You have been registered and logged in")
             return redirect('home')
         else:
-            messages.error(request, "Failed to register. Please correct the errors below.")
             return render(request, 'register.html', {'form': form})
     else:
         form = UserCreationForm()

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book
+from .models import Book, Exchange
 
 class BookForm(forms.ModelForm):
     class Meta:
@@ -12,3 +12,14 @@ class BookForm(forms.ModelForm):
             'condition': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter condition description'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
+        
+class ExchangeForm(forms.ModelForm):
+    class Meta:
+        model = Exchange
+        fields = ['requester_book']
+        
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(ExchangeForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields['requester_book'].queryset = Book.objects.filter(owner=user)

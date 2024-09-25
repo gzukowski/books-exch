@@ -38,10 +38,9 @@
 
                 <div class="d-flex">
                     <!-- Add to cart button -->
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                        <i class="bi-cart-fill me-1"></i>
-                        Add to cart
-                    </button>
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" href="{% url 'request_exchange' book.id %}">Offer a trade</a>
+                        </div>
                 </div>
             </div>
         </div>

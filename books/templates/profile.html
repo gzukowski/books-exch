@@ -17,7 +17,8 @@
         </div>
     </div>
 </header>
-<!-- Section-->
+
+<!-- Section: Your Books -->
 <main class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -35,9 +36,7 @@
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
-                                <!-- Product name-->
                                 <h5 class="fw-bolder">{{ book.title }}</h5>
-                                <!-- Product price-->
                             </div>
                         </div>
                         <!-- Product actions-->
@@ -49,7 +48,57 @@
                         </div>
                     </div>
                 </div>
-                {% endfor %}
+            {% endfor %}
+        </div>
+
+        <!-- Section: Your Exchange Offers -->
+        <h2 class="text-center mt-5">Your Exchange Offers</h2>
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            {% if exchanges_requested %}
+                <div class="col-12">
+                    <h4 class="mt-4">Exchanges You Have Requested</h4>
+                    <ul class="list-group">
+                        {% for exchange in exchanges_requested %}
+                            <li class="list-group-item">
+                                You requested to exchange your book <strong>{{ exchange.requester_book.title }}</strong> 
+                                for <strong>{{ exchange.receiver_book.title }}</strong> owned by 
+                                <strong>{{ exchange.receiver.username }}</strong>.
+                                <span class="badge bg-secondary">{{ exchange.get_status_display }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <p class="text-center">You haven't requested any exchanges yet.</p>
+            {% endif %}
+        </div>
+
+        <!-- Section: Exchange Requests You Received -->
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            {% if exchanges_received %}
+                <div class="col-12">
+                    <h4 class="mt-4">Exchange Requests You Received</h4>
+                    <ul class="list-group">
+                        {% for exchange in exchanges_received %}
+                            <li class="list-group-item">
+                                <strong>{{ exchange.requester.username }}</strong> wants to exchange their book 
+                                <strong>{{ exchange.requester_book.title }}</strong> for your book 
+                                <strong>{{ exchange.receiver_book.title }}</strong>.
+                                <span class="badge bg-secondary">{{ exchange.get_status_display }}</span>
+                                <!-- Action buttons: Accept/Decline -->
+                                <div class="mt-2">
+                                    {% if exchange.status == 'pending' %}
+                                        <a href="{% url 'respond_exchange' exchange.id 'accept' %}" class="btn btn-success btn-sm">Accept</a>
+                                        <a href="{% url 'respond_exchange' exchange.id 'decline' %}" class="btn btn-danger btn-sm">Decline</a>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <p class="text-center">You haven't received any exchange requests yet.</p>
+            {% endif %}
         </div>
     </div>
 </main>

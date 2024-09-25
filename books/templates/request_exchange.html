@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Header -->
+<header class="bg-dark py-5" role="banner">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Request Book Exchange</h1>
+            <p class="lead fw-normal text-white-50 mb-0">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</header>
+
+<!-- Section -->
+<main class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="fw-bolder">You are requesting to exchange a book with {{ receiver_book.owner.username }}.</h2>
+                <form method="post" class="bg-light p-4 rounded shadow-sm">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-dark">Send Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
