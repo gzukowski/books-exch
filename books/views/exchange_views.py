@@ -41,7 +41,17 @@ def respond_exchange(request, exchange_id, response):
 
     if response == 'accept':
         exchange.status = 'accepted'
-        messages.success(request, 'Exchange accepted!')
+        
+        receiver_book = exchange.receiver_book
+        requester_book = exchange.requester_book
+
+        receiver_book.owner = exchange.requester
+        requester_book.owner = exchange.receiver
+
+        receiver_book.save()
+        requester_book.save()
+
+        messages.success(request, 'Exchange accepted! Ownership has been updated.')
     elif response == 'decline':
         exchange.status = 'declined'
         messages.warning(request, 'Exchange declined.')
