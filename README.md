@@ -2,6 +2,7 @@
 
 A Django-based fullstack application for exchanging books between users. Users can list their books, browse others' books, and propose trades. Customized admin panel for bulking books from apis.
 
+
 ## Features
 
 - User authentication
@@ -92,3 +93,6 @@ cd books-exchange-app
 
 - Update the `docker-compose.yml` file to configure your services, volumes, and networks as necessary.
 - Modify the Django settings in `settings.py` to match your environment.
+
+## Current Status
+⚠️ Caution: This version of the app is only intended for development. The production environment is not yet ready. ⚠️
