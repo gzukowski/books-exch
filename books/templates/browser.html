@@ -12,7 +12,10 @@
 
 <!-- Search Bar -->
 <div class="container my-4">
-    <input type="text" id="search-bar" class="form-control" placeholder="Search for books...">
+    <form role="search" aria-label="Book Search">
+        <label for="search-bar" class="form-label">Search for books:</label>
+        <input type="text" id="search-bar" class="form-control" placeholder="Search for books..." aria-required="true">
+    </form>
 </div>
 
 <!-- Section-->
